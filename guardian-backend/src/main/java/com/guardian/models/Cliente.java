@@ -16,67 +16,67 @@ public class Cliente {
 	private long ID;
 	
 	@NotBlank
-	private String Nome;
+	private String nome;
 
 	@NotBlank
 	private String CPF;
 	
 	@NotBlank
-	private String Telefone;
+	private String telefone;
 	
-	@NotBlank
-	private ArrayList<Veiculos> Veiculos;
+	//@NotBlank //Tem que ser permitido vazio de inicio, um cliente tem que poder criar conta sem carro inicialmente
+	private ArrayList<Veiculo> veiculos;
 
 	
-	public Cliente() {}
-	
-	public Cliente(long ID, String Nome, String CPF, String Telefone, 
-				   ArrayList<Veiculos> Veiculos) {
-		this.ID = ID;
-		this.Nome = Nome;
-		this.CPF = CPF;
-		this.Telefone = Telefone;
-		this.Veiculos = Veiculos;
+	public Cliente(long ID) {
+		setID(ID);
+		this.veiculos = new ArrayList<>();
 	}
+	
+	public Cliente(long ID, String nome, String CPF, String telefone, 
+				   ArrayList<Veiculo> veiculos) {
+		setID(ID);
+		setNome(nome);
+		setCPF(CPF);
+		setTelefone(telefone);
+		setVeiculos(veiculos);
+	}
+	
+	/* -- GETTERS & SETTERS -- */
 	
 	public long getID() {
 		return ID;
 	}
-
 	public void setID(long iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 
 	public String getNome() {
-		return Nome;
+		return nome;
 	}
-
 	public void setNome(String nome) {
-		Nome = nome;
+		this.nome = nome;
 	}
 
 	public String getCPF() {
 		return CPF;
 	}
-
 	public void setCPF(String cPF) {
-		CPF = cPF;
+		this.CPF = cPF;
 	}
 
 	public String getTelefone() {
-		return Telefone;
+		return telefone;
 	}
-
 	public void setTelefone(String telefone) {
-		Telefone = telefone;
+		this.telefone = telefone;
 	}
 
-	public ArrayList<Veiculos> getVeiculos() {
-		return Veiculos;
+	public ArrayList<Veiculo> getVeiculos() {
+		return veiculos;
 	}
-
-	public void setVeiculos(ArrayList<Veiculos> veiculos) {
-		Veiculos = veiculos;
+	public void setVeiculos(ArrayList<Veiculo> veiculos) {
+		this.veiculos = veiculos;
 	}
 	
 
