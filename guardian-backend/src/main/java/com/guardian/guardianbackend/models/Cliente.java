@@ -1,4 +1,4 @@
-package com.guardian.models;
+package com.guardian.guardianbackend.models;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Cliente {
 	

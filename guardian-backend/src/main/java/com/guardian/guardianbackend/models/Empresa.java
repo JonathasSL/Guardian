@@ -1,4 +1,4 @@
-package com.guardian.models;
+package com.guardian.guardianbackend.models;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.guardian.controllers;
+package com.guardian.guardianbackend.controllers;
 
 import javax.validation.Valid;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guardian.models.Cliente;
-import com.guardian.repository.ClienteRepository;
+import com.guardian.guardianbackend.repository.ClienteRepository;
+import com.guardian.guardianbackend.models.Cliente;
 
 @RestController
 @RequestMapping("/clientes")
