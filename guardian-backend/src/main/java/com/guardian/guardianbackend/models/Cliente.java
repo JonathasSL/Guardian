@@ -1,7 +1,5 @@
 package com.guardian.guardianbackend.models;
 
-import java.util.ArrayList;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,22 +25,15 @@ public class Cliente {
 	@NotBlank
 	private String telefone;
 	
-	//@NotBlank //Tem que ser permitido vazio de inicio, um cliente tem que poder criar conta sem carro inicialmente
-	private ArrayList<Veiculo> veiculos;
-
-	
 	public Cliente(long ID) {
 		setID(ID);
-		this.veiculos = new ArrayList<>();
 	}
 	
-	public Cliente(long ID, String nome, String CPF, String telefone, 
-				   ArrayList<Veiculo> veiculos) {
+	public Cliente(long ID, String nome, String CPF, String telefone) {
 		setID(ID);
 		setNome(nome);
 		setCPF(CPF);
 		setTelefone(telefone);
-		setVeiculos(veiculos);
 	}
 	
 	/* -- GETTERS & SETTERS -- */
@@ -73,13 +64,6 @@ public class Cliente {
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public ArrayList<Veiculo> getVeiculos() {
-		return veiculos;
-	}
-	public void setVeiculos(ArrayList<Veiculo> veiculos) {
-		this.veiculos = veiculos;
 	}
 	
 
