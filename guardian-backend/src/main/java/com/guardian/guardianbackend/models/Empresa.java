@@ -9,8 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Empresa {
-	// Empresa/Estacionamento
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ID;

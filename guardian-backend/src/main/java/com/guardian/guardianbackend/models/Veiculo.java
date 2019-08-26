@@ -30,7 +30,7 @@ public class Veiculo {
 	private Integer tipoVeiculo; //Moto - 1, Carro - 2
 	
 	@NotBlank
-	private String modelo; //Gol, palio, fusca
+	private String modelo;
 	
 	public Veiculo() {}
 
