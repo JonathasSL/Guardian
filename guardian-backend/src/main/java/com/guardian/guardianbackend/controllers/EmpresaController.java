@@ -15,7 +15,7 @@ import com.guardian.guardianbackend.repository.EmpresaRepository;
 import com.guardian.guardianbackend.models.Empresa;
 
 @RestController
-@RequestMapping("/empresas")
+@RequestMapping("/api/empresas")
 public class EmpresaController {
 	
 	@Autowired

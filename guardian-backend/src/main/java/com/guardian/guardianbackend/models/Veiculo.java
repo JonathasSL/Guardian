@@ -19,9 +19,6 @@ public class Veiculo {
 	@NotNull
 	private long IDCliente;
 	
-	@NotNull
-	private long IDEmpresa;
-
 	@NotBlank
 	private String placa;
 	
@@ -34,11 +31,10 @@ public class Veiculo {
 	
 	public Veiculo() {}
 
-	public Veiculo(long ID, String Placa, long iDCliente, long iDEmpresa) {
+	public Veiculo(long ID, String Placa, long iDCliente) {
 		setID(ID);
 		setPlaca(placa);
 		setIDCliente(iDCliente);
-		setIDEmpresa(iDEmpresa);
 		
 	}
 	
@@ -86,13 +82,6 @@ public class Veiculo {
 		this.modelo = modelo;
 	}
 	
-	public long getIDEmpresa() {
-		return IDEmpresa;
-	}
-
-	public void setIDEmpresa(long iDEmpresa) {
-		IDEmpresa = iDEmpresa;
-	}
 
 	
 }

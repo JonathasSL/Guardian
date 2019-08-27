@@ -15,7 +15,7 @@ import com.guardian.guardianbackend.models.Reserva;
 import com.guardian.guardianbackend.repository.ReservaRepository;
 
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("/api/reservas")
 public class ReservaController {
 
 	@Autowired

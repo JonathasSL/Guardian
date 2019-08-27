@@ -15,7 +15,7 @@ import com.guardian.guardianbackend.models.Veiculo;
 import com.guardian.guardianbackend.repository.VeiculoRepository;
 
 @RestController
-@RequestMapping("/veiculos")
+@RequestMapping("/api/veiculos")
 public class VeiculoController {
 
 	@Autowired

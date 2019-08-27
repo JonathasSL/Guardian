@@ -25,8 +25,7 @@ public class Cliente {
 	@NotBlank
 	private String telefone;
 	
-	public Cliente(long ID) {
-		setID(ID);
+	public Cliente() {
 	}
 	
 	public Cliente(long ID, String nome, String CPF, String telefone) {

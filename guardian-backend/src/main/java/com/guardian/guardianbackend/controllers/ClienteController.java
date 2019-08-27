@@ -15,7 +15,7 @@ import com.guardian.guardianbackend.repository.ClienteRepository;
 import com.guardian.guardianbackend.models.Cliente;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 	
 	@Autowired
