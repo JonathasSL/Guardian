@@ -11,30 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guardian.guardianbackend.repository.EmpresaRepository;
-import com.guardian.guardianbackend.models.Empresa;
+import com.guardian.guardianbackend.models.Vehicle;
+import com.guardian.guardianbackend.repository.VehicleRepository;
+
+
 
 @RestController
-@RequestMapping("/api/empresas")
-public class EmpresaController {
+@RequestMapping("api/vehicle")
+public class VehicleController {
 	
 	@Autowired
-	private EmpresaRepository _empresaRepository;
-
+	private VehicleRepository _vehicleRepository;
+	
 	@GetMapping(produces="application/json")
-	public @ResponseBody Iterable<Empresa> ListaEmpresas() {
-		Iterable<Empresa> clientes = _empresaRepository.findAll();
-		return clientes;
+	public @ResponseBody Iterable<Vehicle> listVehicle(){
+		Iterable<Vehicle> vehicles = _vehicleRepository.findAll();
+		return vehicles;
 	}
 	
 	@PostMapping()
-	public Empresa CadastraEmpresa(@RequestBody @Valid Empresa empresa) {
-		 return _empresaRepository.save(empresa);
+	public Vehicle registerVehicle(@RequestBody @Valid Vehicle vehicle) {
+		return _vehicleRepository.save(vehicle);
 	}
 	
 	@DeleteMapping()
-	public Empresa DeletaEmpresa(@RequestBody Empresa empresa) {
-		_empresaRepository.delete(empresa);
-		 return empresa;
+	public Vehicle deleteVehicle(@RequestBody Vehicle vehicle) {
+		_vehicleRepository.delete(vehicle);
+		return vehicle;
 	}
+
 }

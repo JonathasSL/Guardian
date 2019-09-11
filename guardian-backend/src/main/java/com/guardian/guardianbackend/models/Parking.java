@@ -1,5 +1,6 @@
 package com.guardian.guardianbackend.models;
 
+import java.sql.Time;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,13 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-public class Driver {
-
+public class Parking {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -29,105 +31,126 @@ public class Driver {
 	private String password;
 	
 	@NotBlank
-	private String CPF;
+	private String cnpj;
 	
 	private String phone_number;
 	
+	private double longitude;
+	
+	private double latitude;
+	
+	@NotNull
+	private Time opening_time;
+	
+	@NotNull
+	private Time closing_time;
+	
 	private String picture;
+	
+	@NotNull
+	private Integer qtd_parking_spot;
 
-	public Driver() {}
+	public Parking() {}
 	
 	
-	/* -- GETTERS & SETTERS -- */
 
-	/**
-	 * @return the iD
-	 */
 	public long getID() {
 		return id;
 	}
-	/**
-	 * @param iD the iD to set
-	 */
+
 	public void setID(long iD) {
 		id = iD;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
-	/**
-	 * @param email the email to set
-	 */
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**
-	 * @return the cPF
-	 */
-	public String getCPF() {
-		return CPF;
-	}
-	/**
-	 * @param cPF the cPF to set
-	 */
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public String getCNPJ() {
+		return cnpj;
 	}
 
-	/**
-	 * @return the phone_number
-	 */
+	public void setCNPJ(String cNPJ) {
+		cnpj = cNPJ;
+	}
+
 	public String getPhone_number() {
 		return phone_number;
 	}
-	/**
-	 * @param phone_number the phone_number to set
-	 */
+
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
 
-	/**
-	 * @return the picture
-	 */
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Time getOpening_time() {
+		return opening_time;
+	}
+
+	public void setOpening_time(Time opening_time) {
+		this.opening_time = opening_time;
+	}
+
+	public Time getClosing_time() {
+		return closing_time;
+	}
+
+	public void setClosing_time(Time closing_time) {
+		this.closing_time = closing_time;
+	}
+
 	public String getPicture() {
 		return picture;
 	}
-	/**
-	 * @param picture the picture to set
-	 */
+
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+
+	public Integer getQtd_parking_spot() {
+		return qtd_parking_spot;
+	}
+
+	public void setQtd_parking_spot(Integer qtd_parking_spot) {
+		this.qtd_parking_spot = qtd_parking_spot;
+	}
+	
+	
+	
+
 }

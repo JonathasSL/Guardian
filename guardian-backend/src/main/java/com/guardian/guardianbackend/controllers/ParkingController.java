@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guardian.guardianbackend.models.Veiculo;
-import com.guardian.guardianbackend.repository.VeiculoRepository;
+import com.guardian.guardianbackend.models.Parking;
+import com.guardian.guardianbackend.repository.ParkingRepository;
 
 @RestController
-@RequestMapping("/api/veiculos")
-public class VeiculoController {
-
+@RequestMapping("api/parking")
+public class ParkingController {
+	
 	@Autowired
-	private VeiculoRepository _veiculoRepository;
-
+	private ParkingRepository _parkingRepository;
+	
 	@GetMapping(produces="application/json")
-	public @ResponseBody Iterable<Veiculo> ListaVeiculos() {
-		Iterable<Veiculo> veiculos = _veiculoRepository.findAll();
-		return veiculos;
+	public @ResponseBody Iterable<Parking> listParking(){
+		Iterable<Parking> parkings = _parkingRepository.findAll();
+		return parkings;
 	}
 	
 	@PostMapping()
-	public Veiculo CadastraVeiculo(@RequestBody @Valid Veiculo veiculo) {
-		 return _veiculoRepository.save(veiculo);
+	public Parking registerParking(@RequestBody @Valid Parking parking) {
+		return _parkingRepository.save(parking);
 	}
 	
 	@DeleteMapping()
-	public Veiculo DeletaVeiculo(@RequestBody Veiculo veiculo) {
-		_veiculoRepository.delete(veiculo);
-		 return veiculo;
+	public Parking deleteParking(@RequestBody Parking parking) {
+		_parkingRepository.delete(parking);
+		return parking;
 	}
 	
 }
