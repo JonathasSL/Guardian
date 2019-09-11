@@ -11,35 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.guardian.guardianbackend.repository.ClienteRepository;
-import com.guardian.guardianbackend.models.Cliente;
+import com.guardian.guardianbackend.models.Driver;
+import com.guardian.guardianbackend.repository.DriverRepository;
 
 @RestController
-@RequestMapping("/api/clientes")
-public class ClienteController {
-	
-	@Autowired
-	private ClienteRepository _clienteRepository;
+@RequestMapping("api/driver")
+public class DriverController {
 
+	@Autowired
+	private DriverRepository _driverRepository;
+	
 	@GetMapping(produces="application/json")
-	public @ResponseBody Iterable<Cliente> ListaClientes() {
-		Iterable<Cliente> clientes = _clienteRepository.findAll();
-		return clientes;
+	public @ResponseBody Iterable<Driver> listDriver(){
+		Iterable<Driver> drivers = _driverRepository.findAll();
+		return drivers;
 	}
 	
 	@PostMapping()
-	public Cliente CadastraCliente(@RequestBody @Valid Cliente cliente) {
-		 return _clienteRepository.save(cliente);
+	public Driver registerDriver(@RequestBody @Valid Driver driver) {
+		return _driverRepository.save(driver);
 	}
 	
 	@DeleteMapping()
-	public Cliente DeletaCliente(@RequestBody Cliente cliente) {
-		 _clienteRepository.delete(cliente);
-		 return cliente;
+	public Driver deleteDriver(@RequestBody Driver driver) {
+		_driverRepository.delete(driver);
+		return driver;
 	}
 	
-	
-	
-	
-	
+
 }
