@@ -20,23 +20,36 @@ public class DriverController {
 
 	@Autowired
 	private DriverRepository _driverRepository;
-	
-	@GetMapping(produces="application/json")
-	public @ResponseBody Iterable<Driver> listDriver(){
+
+	@GetMapping(produces = "application/json")
+	public @ResponseBody Iterable<Driver> listDriver() {
 		Iterable<Driver> drivers = _driverRepository.findAll();
 		return drivers;
 	}
-	
+
+	@GetMapping("api/driver/{id}")
+	public @ResponseBody Driver getById(long id) {
+		Iterable<Driver> drivers = _driverRepository.findAll();
+		Driver driverFound = new Driver();
+
+		for (Driver driver : drivers) {
+			if (driver.getID() == id) {
+				driverFound = driver;
+			}
+		}
+
+		return driverFound;
+	}
+
 	@PostMapping()
 	public Driver registerDriver(@RequestBody @Valid Driver driver) {
 		return _driverRepository.save(driver);
 	}
-	
+
 	@DeleteMapping()
 	public Driver deleteDriver(@RequestBody Driver driver) {
 		_driverRepository.delete(driver);
 		return driver;
 	}
-	
 
 }
