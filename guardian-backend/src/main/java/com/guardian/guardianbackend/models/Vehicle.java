@@ -1,5 +1,6 @@
 package com.guardian.guardianbackend.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,13 +16,16 @@ public class Vehicle {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_vehicle")
 	private long id;
 	
 	@NotNull
-	private long id_driver;
+	@Column(name = "id_driver")
+	private long idDriver;
 	
 	@NotNull
-	private long id_vehicle_type;
+	@Column(name = "id_vehicle_type")
+	private long idVehicleType;
 	
 	@NotBlank
 	private String plate;
@@ -36,88 +40,71 @@ public class Vehicle {
 	
 	private String color;
 	
-	
 	public Vehicle() {}
-
 
 	public long getId() {
 		return id;
 	}
 
-
 	public void setId(long id) {
 		this.id = id;
 	}
 
-
-	public long getId_driver() {
-		return id_driver;
+	public long getIdDriver() {
+		return idDriver;
 	}
 
-
-	public void setId_driver(long id_driver) {
-		this.id_driver = id_driver;
+	public void setIdDriver(long idDriver) {
+		this.idDriver = idDriver;
 	}
 
-
-	public long getId_vehicle_type() {
-		return id_vehicle_type;
+	public long getIdVehicleType() {
+		return idVehicleType;
 	}
 
-
-	public void setId_vehicle_type(long id_vehicle_type) {
-		this.id_vehicle_type = id_vehicle_type;
+	public void setIdVehicleType(long idVehicleType) {
+		this.idVehicleType = idVehicleType;
 	}
-
 
 	public String getPlate() {
 		return plate;
 	}
 
-
 	public void setPlate(String plate) {
 		this.plate = plate;
 	}
-
 
 	public String getMake() {
 		return make;
 	}
 
-
 	public void setMake(String make) {
 		this.make = make;
 	}
-
 
 	public String getModel() {
 		return model;
 	}
 
-
 	public void setModel(String model) {
 		this.model = model;
 	}
-
 
 	public String getPicture() {
 		return picture;
 	}
 
-
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-
 
 	public String getColor() {
 		return color;
 	}
 
-
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
+
 	
 }

@@ -2,8 +2,10 @@ package com.guardian.guardianbackend.models;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -11,89 +13,64 @@ public class Booking {
 
 	@Id
 	@NotBlank
-	private long id_vehicle;
+	@Column(name = "id_vehicle")
+	private long idVehicle;
+	
+	@Id
+	@NotBlank
+	@Column(name = "id_parking_spot")
+	private long idParkingSpot;
 	
 	@NotBlank
-	private long id_parking_spot; 
+	@Column(name = "check_in")
+	private Date checkIn;
+
+	@Column(name = "check_out")
+	private Date checkOut;
 	
-	@NotBlank
-	private Date check_in;
-	
-	private Date check_out;
-	
+	@Min(0)
 	private double price;
-	
+
 	public Booking() {}
-
-	/**
-	 * @return the id_vehicle
-	 */
-	public long getId_vehicle() {
-		return id_vehicle;
+	
+	public long getIdVehicle() {
+		return idVehicle;
 	}
 
-	/**
-	 * @param id_vehicle the id_vehicle to set
-	 */
-	public void setId_vehicle(long id_vehicle) {
-		this.id_vehicle = id_vehicle;
+	public void setIdVehicle(long idVehicle) {
+		this.idVehicle = idVehicle;
 	}
 
-	/**
-	 * @return the id_parking_spot
-	 */
-	public long getId_parking_spot() {
-		return id_parking_spot;
+	public long getIdParkingSpot() {
+		return idParkingSpot;
 	}
 
-	/**
-	 * @param id_parking_spot the id_parking_spot to set
-	 */
-	public void setId_parking_spot(long id_parking_spot) {
-		this.id_parking_spot = id_parking_spot;
+	public void setIdParkingSpot(long idParkingSpot) {
+		this.idParkingSpot = idParkingSpot;
 	}
 
-	/**
-	 * @return the check_in
-	 */
-	public Date getCheck_in() {
-		return check_in;
+	public Date getCheckIn() {
+		return checkIn;
 	}
 
-	/**
-	 * @param check_in the check_in to set
-	 */
-	public void setCheck_in(Date check_in) {
-		this.check_in = check_in;
+	public void setCheckIn(Date checkIn) {
+		this.checkIn = checkIn;
 	}
 
-	/**
-	 * @return the check_out
-	 */
-	public Date getCheck_out() {
-		return check_out;
+	public Date getCheckOut() {
+		return checkOut;
 	}
 
-	/**
-	 * @param check_out the check_out to set
-	 */
-	public void setCheck_out(Date check_out) {
-		this.check_out = check_out;
+	public void setCheckOut(Date checkOut) {
+		this.checkOut = checkOut;
 	}
 
-	/**
-	 * @return the price
-	 */
 	public double getPrice() {
 		return price;
 	}
 
-	/**
-	 * @param price the price to set
-	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
+		
 }
