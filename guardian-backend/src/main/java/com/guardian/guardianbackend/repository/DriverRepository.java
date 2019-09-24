@@ -9,4 +9,6 @@ import com.guardian.guardianbackend.models.Driver;
 public interface DriverRepository extends JpaRepository<Driver, Long> {
 
 	Optional<Driver> findByIdDriver(long idDriver);
+	
+	Optional<Driver> findByEmailDriver(String email);
 }

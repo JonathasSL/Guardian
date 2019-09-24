@@ -71,5 +71,19 @@ public class DriverController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.accepted().body(oDriver.get());
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Driver> loginDriver(@RequestBody  String email, String password){
+		Optional<Driver> oDriver = _driverRepository.findByEmailDriver(email);
+		if(oDriver.isPresent()) {
+			if(oDriver.get().getPassword().equals(password)) {
+				return ResponseEntity.accepted().body(oDriver.get());
+			}else {
+				return ResponseEntity.status(401).build();
+			}
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 }

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.guardian.guardianbackend.models.Booking;
 import com.guardian.guardianbackend.models.Parking;
 import com.guardian.guardianbackend.repository.ParkingRepository;
 
@@ -73,6 +72,20 @@ public class ParkingController {
 		else
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.accepted().body(oParking.get());
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Parking> loginDriver(@RequestBody  String email, String password){
+		Optional<Parking> oParking= _parkingRepository.findByEmailParking(email);
+		if(oParking.isPresent()) {
+			if(oParking.get().getPassword().equals(password)) {
+				return ResponseEntity.accepted().body(oParking.get());
+			}else {
+				return ResponseEntity.status(401).build();
+			}
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 }
