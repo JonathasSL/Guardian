@@ -2,6 +2,7 @@ package com.guardian.guardianbackend.models;
 
 import java.sql.Time;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Parking {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_parking")
 	private long id;
 	
 	@NotBlank
