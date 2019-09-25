@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,16 +31,17 @@ import com.guardian.guardianbackend.repository.VehicleRepository;
 public class VehicleController {
 	
 	@Autowired
-	private VehicleRepository _vehicles;
+	private VehicleRepository _vehicleRepository;
 	
 	@GetMapping(produces="application/json")
-	public List<Vehicle>  retrieveVehicles(){
-		 return _vehicles.findAll();
+	public @ResponseBody Iterable<Vehicle>  findAll(){
+		Iterable<Vehicle> vehicles = _vehicleRepository.findAll();
+        return vehicles;
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Vehicle> retrieveById(@PathVariable long id){
-		Optional<Vehicle> oVehicle = _vehicles.findById(id);
+	public ResponseEntity<Vehicle> findById(@PathVariable long id){
+		Optional<Vehicle> oVehicle = _vehicleRepository.findById(id);
 		if(!oVehicle.isPresent())
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(oVehicle.get());
@@ -46,28 +49,28 @@ public class VehicleController {
 	
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public Vehicle registerVehicle(@Valid @RequestBody Vehicle vehicle) {
-		Optional<Vehicle> oVehicle = _vehicles.findByPlate(vehicle.getPlate());
+	public Vehicle register(@Valid @RequestBody Vehicle vehicle) {
+		Optional<Vehicle> oVehicle = _vehicleRepository.findByPlate(vehicle.getPlate());
 		if(oVehicle.isPresent())
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"A Vehicle with this plate already exists");
-		return _vehicles.save(vehicle);
+		return _vehicleRepository.save(vehicle);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<Vehicle> updateById(@PathVariable long id, @RequestBody Vehicle vehicle){
-		Optional<Vehicle> oVehicle = _vehicles.findById(id);
+	@PutMapping()
+	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
+		Optional<Vehicle> oVehicle = _vehicleRepository.findById(vehicle.getId());
 		if(oVehicle.isPresent())
-			_vehicles.deleteById(id);
+			_vehicleRepository.deleteById(vehicle.getId());
 		else
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.accepted().body(registerVehicle(vehicle));
+		return ResponseEntity.accepted().body(register(vehicle));
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Vehicle> deleteVehicle(@PathVariable long id) {
-		Optional<Vehicle> oVehicle = _vehicles.findById(id);
+	public ResponseEntity<Vehicle> delete(@PathVariable long id) {
+		Optional<Vehicle> oVehicle = _vehicleRepository.findById(id);
 		if(oVehicle.isPresent())
-			_vehicles.deleteById(id);
+			_vehicleRepository.deleteById(id);
 		else
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.accepted().body(oVehicle.get());

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +33,13 @@ public class BookingController{
     private BookingRepository _bookingRepository;
 
     @GetMapping(produces = "application/json")
-    public @ResponseBody Iterable<Booking> retrieveAll(){
+    public @ResponseBody Iterable<Booking> findAll(){
         Iterable<Booking> bookings = _bookingRepository.findAll();
         return bookings;
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> retrieveById(@PathVariable long id){
+    public ResponseEntity<Booking> findById(@PathVariable long id){
     	Optional<Booking> booking = _bookingRepository.findById(id);
     	if(!booking.isPresent())
     		return ResponseEntity.notFound().build();
@@ -47,7 +48,7 @@ public class BookingController{
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Booking registerBooking(@Valid @RequestBody Booking booking){
+    public Booking register(@Valid @RequestBody Booking booking){
     	Optional<Booking> oBooking = _bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
     	if(oBooking.isPresent())
     		throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"A Booking with this idVehicle and idParkingSpot already exists");
@@ -55,22 +56,22 @@ public class BookingController{
     }
     
     @PutMapping()
-    public ResponseEntity<Booking> updateById(@RequestBody Booking booking){
+    public ResponseEntity<Booking> update(@RequestBody Booking booking){
     	Optional<Booking> oBooking = _bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
     	if(oBooking.isPresent()) {
     		_bookingRepository.delete(_bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot()).get());
     	}else
     		return ResponseEntity.notFound().build();
-    	return ResponseEntity.accepted().body(registerBooking(booking));
+    	return ResponseEntity.accepted().body(register(booking));
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Booking> deleteById(@RequestBody Booking booking){
-        Optional<Booking> oBooking = _bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
-        if(oBooking.isPresent())
-        	_bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
-        else
-        	return ResponseEntity.notFound().build();
-        return ResponseEntity.accepted().body(oBooking.get());
-    }
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<Booking> delete(@PathVariable long id){
+    //     Optional<Booking> oBooking = _bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
+    //     if(oBooking.isPresent())
+    //     	_bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
+    //     else
+    //     	return ResponseEntity.notFound().build();
+    //     return ResponseEntity.accepted().body(oBooking.get());
+    // }
 }
