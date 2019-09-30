@@ -29,9 +29,9 @@ public class Vehicle {
 	
 	@NotBlank
 	private String plate;
-	
+		
 	@NotBlank
-	private String make;
+	private String make; //Fabricant, maker
 	
 	@NotBlank
 	private String model;

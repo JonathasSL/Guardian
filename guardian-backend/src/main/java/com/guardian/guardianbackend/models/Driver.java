@@ -1,6 +1,5 @@
 package com.guardian.guardianbackend.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,116 +18,82 @@ public class Driver {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_driver")
 	private long id;
-	
+
 	@NotBlank
 	private String name;
-	
+
 	@NotBlank
 	@Email
+	@Column(name = "email_parking")
 	private String email;
-	
+
 	@NotBlank
+	@Column(name = "password_parking")
 	private String password;
-	
+
 	@NotBlank
 	private String CPF;
-	
-	private String phone_number;
-	
+
+	@Column(name = "phone_number")
+	private String phoneNumber;
+
 	private String picture;
 
-	public Driver() {}
-	
-	
-	/* -- GETTERS & SETTERS -- */
+	public Driver() {
+	}
 
-	/**
-	 * @return the iD
-	 */
 	public long getID() {
 		return id;
 	}
-	/**
-	 * @param iD the iD to set
-	 */
+
 	public void setID(long iD) {
 		id = iD;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
-	/**
-	 * @param email the email to set
-	 */
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**
-	 * @return the cPF
-	 */
 	public String getCPF() {
 		return CPF;
 	}
-	/**
-	 * @param cPF the cPF to set
-	 */
+
 	public void setCPF(String cPF) {
 		CPF = cPF;
 	}
 
-	/**
-	 * @return the phone_number
-	 */
-	public String getPhone_number() {
-		return phone_number;
-	}
-	/**
-	 * @param phone_number the phone_number to set
-	 */
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public String getphoneNumber() {
+		return phoneNumber;
 	}
 
-	/**
-	 * @return the picture
-	 */
+	public void setphoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getPicture() {
 		return picture;
 	}
-	/**
-	 * @param picture the picture to set
-	 */
+
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}

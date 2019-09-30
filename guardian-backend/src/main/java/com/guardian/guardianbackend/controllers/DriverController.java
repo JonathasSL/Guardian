@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,39 +32,41 @@ public class DriverController {
 	private DriverRepository _driverRepository;
 
 	@GetMapping(produces = "application/json")
-	public @ResponseBody Iterable<Driver> listDriver() {
+	public @ResponseBody Iterable<Driver> findAll() {
 		Iterable<Driver> drivers = _driverRepository.findAll();
 		return drivers;
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Driver> retriveById(@PathVariable long id) {
+	public ResponseEntity<Driver> findById(@PathVariable long id) {
 		Optional<Driver> oDriver = _driverRepository.findById(id);
-		if (oDriver.isEmpty())
+		if (!oDriver.isPresent())
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(oDriver.get());
 	}
 
 	@PostMapping()
-	public Driver registerDriver(@Valid @RequestBody Driver driver) {
-		Optional<Driver> oDriver= _driverRepository.findById(driver.getID());
-		if(oDriver.isPresent())
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"This driver already exists");
+	@ResponseStatus(HttpStatus.CREATED)
+	public Driver register(@Valid @RequestBody Driver driver) {
+		Optional<Driver> oDriver = _driverRepository.findByEmail(driver.getEmail());
+		if (oDriver.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This driver already exists");
 		return _driverRepository.save(driver);
 	}
-	
+
 	@PutMapping()
-	public ResponseEntity<Driver> updateParking(@RequestBody Driver newDriver) {
-		Optional<Driver> oParking = _driverRepository.findById(newDriver.getID());
-		if (oParking.isPresent())
-			_driverRepository.deleteById(newDriver.getID());
-		else
+	public ResponseEntity<Driver> update(@RequestBody Driver newDriver) {
+		Optional<Driver> oDriver = _driverRepository.findById(newDriver.getID());
+		if (oDriver.isPresent()){
+			_driverRepository.save(newDriver);
+			return ResponseEntity.accepted().body(newDriver);
+		}else{
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.accepted().body(registerDriver(newDriver));
+		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Driver> deleteDriver(@PathVariable long id) {
+	public ResponseEntity<Driver> delete(@PathVariable long id) {
 		Optional<Driver> oDriver = _driverRepository.findById(id);
 		if (oDriver.isPresent())
 			_driverRepository.deleteById(id);
@@ -71,17 +74,17 @@ public class DriverController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.accepted().body(oDriver.get());
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<Driver> loginDriver(@RequestBody  String email, String password){
-		Optional<Driver> oDriver = _driverRepository.findByEmailDriver(email);
-		if(oDriver.isPresent()) {
-			if(oDriver.get().getPassword().equals(password)) {
+	public ResponseEntity<Driver> login(@RequestBody String email, String password) {
+		Optional<Driver> oDriver = _driverRepository.findByEmail(email);
+		if (oDriver.isPresent()) {
+			if (oDriver.get().getPassword().equals(password)) {
 				return ResponseEntity.accepted().body(oDriver.get());
-			}else {
+			} else {
 				return ResponseEntity.status(401).build();
 			}
-		}else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}

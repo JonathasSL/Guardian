@@ -8,8 +8,6 @@ import com.guardian.guardianbackend.models.Parking;
 
 
 public interface ParkingRepository extends JpaRepository<Parking, Long> {
-
-	Optional<Parking> findByIdParking(long idParking);
 	
-	Optional<Parking> findByEmailParking(String email);
+	Optional<Parking> findByEmail(String email);
 }

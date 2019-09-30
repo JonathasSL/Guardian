@@ -32,40 +32,40 @@ public class ParkingController {
 	private ParkingRepository _parkingRepository;
 
 	@GetMapping(produces = "application/json")
-	public @ResponseBody Iterable<Parking> retrieveAll() {
+	public @ResponseBody Iterable<Parking> findAll() {
 		Iterable<Parking> parkings = _parkingRepository.findAll();
 		return parkings;
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Parking> retriveById(@PathVariable long id) {
-		Optional<Parking> parking = _parkingRepository.findById(id);
-		if (!parking.isPresent())
+	public ResponseEntity<Parking> findById(@PathVariable long id) {
+		Optional<Parking> oParking = _parkingRepository.findById(id);
+		if (!oParking.isPresent())
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(parking.get());
+		return ResponseEntity.ok(oParking.get());
 	}
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public Parking registerParking(@RequestBody @Valid Parking parking) {
-		Optional<Parking> oParking = _parkingRepository.findById(parking.getID());
+	public Parking register(@RequestBody @Valid Parking parking) {
+		Optional<Parking> oParking = _parkingRepository.findByEmail(parking.getEmail());
 		if (oParking.isPresent())
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This Parking already exists");
 		return _parkingRepository.save(parking);
 	}
 
 	@PutMapping()
-	public ResponseEntity<Parking> updateParking(@RequestBody Parking newParking) {
+	public ResponseEntity<Parking> update(@RequestBody Parking newParking) {
 		Optional<Parking> oParking = _parkingRepository.findById(newParking.getID());
 		if (oParking.isPresent())
 			_parkingRepository.deleteById(newParking.getID());
 		else
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.accepted().body(registerParking(newParking));
+		return ResponseEntity.accepted().body(register(newParking));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Parking> deleteById(@PathVariable long id) {
+	public ResponseEntity<Parking> delete(@PathVariable long id) {
 		Optional<Parking> oParking = _parkingRepository.findById(id);
 		if (oParking.isPresent())
 			_parkingRepository.deleteById(id);
@@ -73,17 +73,17 @@ public class ParkingController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.accepted().body(oParking.get());
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<Parking> loginDriver(@RequestBody  String email, String password){
-		Optional<Parking> oParking= _parkingRepository.findByEmailParking(email);
-		if(oParking.isPresent()) {
-			if(oParking.get().getPassword().equals(password)) {
+	public ResponseEntity<Parking> login(@RequestBody String email, String password) {
+		Optional<Parking> oParking = _parkingRepository.findByEmail(email);
+		if (oParking.isPresent()) {
+			if (oParking.get().getPassword().equals(password)) {
 				return ResponseEntity.accepted().body(oParking.get());
-			}else {
+			} else {
 				return ResponseEntity.status(401).build();
 			}
-		}else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}

@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -12,11 +14,14 @@ import javax.validation.constraints.NotBlank;
 public class Booking {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_booking")
+	private long id;
+
 	@NotBlank
 	@Column(name = "id_vehicle")
 	private long idVehicle;
 	
-	@Id
 	@NotBlank
 	@Column(name = "id_parking_spot")
 	private long idParkingSpot;
@@ -32,6 +37,14 @@ public class Booking {
 	private double price;
 
 	public Booking() {}
+
+	public long getID() {
+		return id;
+	}
+
+	public void setID(long iD) {
+		id = iD;
+	}
 	
 	public long getIdVehicle() {
 		return idVehicle;

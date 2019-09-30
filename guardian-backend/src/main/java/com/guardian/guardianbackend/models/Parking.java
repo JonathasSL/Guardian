@@ -27,30 +27,36 @@ public class Parking {
 	
 	@NotBlank
 	@Email
+	@Column(name = "email_parking")
 	private String email;
 	
 	@NotBlank
+	@Column(name = "password_parking")
 	private String password;
 	
 	@NotBlank
 	private String cnpj;
-	
-	private String phone_number;
+
+	@Column(name="phone_number")
+	private String phoneNumber;
 	
 	private double longitude;
 	
 	private double latitude;
 	
 	@NotNull
-	private Time opening_time;
+	@Column(name="opening_time")
+	private Time openingTime;
 	
 	@NotNull
-	private Time closing_time;
+	@Column(name="closing_time")
+	private Time closingTime;
 	
 	private String picture;
 	
 	@NotNull
-	private Integer qtd_parking_spot;
+	@Column(name ="qtd_parking_spot")
+	private Integer qtdParkingSpot;
 
 	public Parking() {}
 	
@@ -97,11 +103,11 @@ public class Parking {
 	}
 
 	public String getPhone_number() {
-		return phone_number;
+		return phoneNumber;
 	}
 
 	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+		this.phoneNumber = phone_number;
 	}
 
 	public double getLongitude() {
@@ -121,19 +127,19 @@ public class Parking {
 	}
 
 	public Time getOpening_time() {
-		return opening_time;
+		return openingTime;
 	}
 
 	public void setOpening_time(Time opening_time) {
-		this.opening_time = opening_time;
+		this.openingTime = opening_time;
 	}
 
 	public Time getClosing_time() {
-		return closing_time;
+		return closingTime;
 	}
 
 	public void setClosing_time(Time closing_time) {
-		this.closing_time = closing_time;
+		this.closingTime = closing_time;
 	}
 
 	public String getPicture() {
@@ -145,11 +151,11 @@ public class Parking {
 	}
 
 	public Integer getQtd_parking_spot() {
-		return qtd_parking_spot;
+		return qtdParkingSpot;
 	}
 
 	public void setQtd_parking_spot(Integer qtd_parking_spot) {
-		this.qtd_parking_spot = qtd_parking_spot;
+		this.qtdParkingSpot = qtd_parking_spot;
 	}
 	
 	
