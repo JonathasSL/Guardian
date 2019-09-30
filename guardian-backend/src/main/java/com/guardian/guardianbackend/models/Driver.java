@@ -16,7 +16,7 @@ public class Driver {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name = "id_driver")
+	@Column(name = "id_driver")
 	private long id;
 
 	@NotBlank
@@ -24,15 +24,18 @@ public class Driver {
 
 	@NotBlank
 	@Email
+	@Column(name = "email_parking")
 	private String email;
 
 	@NotBlank
+	@Column(name = "password_parking")
 	private String password;
 
 	@NotBlank
 	private String CPF;
 
-	private String phone_number;
+	@Column(name = "phone_number")
+	private String phoneNumber;
 
 	private String picture;
 
@@ -79,12 +82,12 @@ public class Driver {
 		CPF = cPF;
 	}
 
-	public String getPhone_number() {
-		return phone_number;
+	public String getphoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setphoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getPicture() {

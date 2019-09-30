@@ -27,9 +27,11 @@ public class Parking {
 	
 	@NotBlank
 	@Email
+	@Column(name = "email_parking")
 	private String email;
 	
 	@NotBlank
+	@Column(name = "password_parking")
 	private String password;
 	
 	@NotBlank
