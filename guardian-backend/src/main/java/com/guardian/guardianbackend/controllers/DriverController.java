@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.guardian.guardianbackend.models.Driver;

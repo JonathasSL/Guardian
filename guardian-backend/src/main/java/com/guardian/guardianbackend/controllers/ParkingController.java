@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.guardian.guardianbackend.models.Parking;
 import com.guardian.guardianbackend.repository.ParkingRepository;
 
@@ -75,7 +76,9 @@ public class ParkingController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Parking> login(@RequestBody String email, String password) {
+	public ResponseEntity<Parking> login(@RequestBody ObjectNode login) {
+		String email = login.get("email").asText();
+		String password = login.get("passowrd").asText();
 		Optional<Parking> oParking = _parkingRepository.findByEmail(email);
 		if (oParking.isPresent()) {
 			if (oParking.get().getPassword().equals(password)) {

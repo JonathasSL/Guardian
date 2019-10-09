@@ -1,6 +1,5 @@
 package com.guardian.guardianbackend.models;
 
-import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,19 +43,12 @@ public class Parking {
 	
 	private double latitude;
 	
-	@NotNull
-	@Column(name="opening_time")
-	private Time openingTime;
-	
-	@NotNull
-	@Column(name="closing_time")
-	private Time closingTime;
-	
 	private String picture;
 	
+	
 	@NotNull
-	@Column(name ="qtd_parking_spot")
-	private Integer qtdParkingSpot;
+	@Column(name = "qtd_parking_spot")
+	private int qtdParkingSpot;
 
 	public Parking() {}
 	
@@ -126,22 +118,6 @@ public class Parking {
 		this.latitude = latitude;
 	}
 
-	public Time getOpening_time() {
-		return openingTime;
-	}
-
-	public void setOpening_time(Time opening_time) {
-		this.openingTime = opening_time;
-	}
-
-	public Time getClosing_time() {
-		return closingTime;
-	}
-
-	public void setClosing_time(Time closing_time) {
-		this.closingTime = closing_time;
-	}
-
 	public String getPicture() {
 		return picture;
 	}
@@ -157,8 +133,5 @@ public class Parking {
 	public void setQtd_parking_spot(Integer qtd_parking_spot) {
 		this.qtdParkingSpot = qtd_parking_spot;
 	}
-	
-	
-	
 
 }
