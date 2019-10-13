@@ -46,6 +46,10 @@ public class ParkingSpotController {
         return ResponseEntity.ok().body(oSpot.get());
     }
 
+    @GetMapping()
+    public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+        return ResponseEntity.status(200).body(_ParkingSpotRepository.findByIdParking(idParking));
+    }
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,7 +77,7 @@ public class ParkingSpotController {
     @PutMapping("/{id}")
     public ResponseEntity<ParkingSpot> update(long id){
         //TODO: Discutir oque deve ser recebido para atualizacao, status only?
-        
+
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
