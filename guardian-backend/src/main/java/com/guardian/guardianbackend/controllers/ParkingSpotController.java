@@ -1,5 +1,6 @@
 package com.guardian.guardianbackend.controllers;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,26 +31,27 @@ import org.springframework.web.server.ResponseStatusException;
 public class ParkingSpotController {
 
     @Autowired
-    private ParkingSpotRepository _ParkingSpotRepository;
+    private ParkingSpotRepository _parkingSpotRepository;
 
     @GetMapping(produces = "application/json")
     public @ResponseBody Iterable<ParkingSpot> findAll() {
-        Iterable<ParkingSpot> spots = _ParkingSpotRepository.findAll();
+        Iterable<ParkingSpot> spots = _parkingSpotRepository.findAll();
         return spots;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ParkingSpot> findById(@PathVariable long id) {
-        Optional<ParkingSpot> oSpot = _ParkingSpotRepository.findById(id);
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(id);
         if (!oSpot.isPresent())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(oSpot.get());
     }
 
-    @GetMapping()
-    public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
-        return ResponseEntity.status(200).body(_ParkingSpotRepository.findByIdParking(idParking));
-    }
+    
+    // @GetMapping() //TODO: Discutir como diferenciar findById de findByIdParking: @PathVariable?
+    // public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+    //     return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
+    // }
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -65,26 +67,35 @@ public class ParkingSpotController {
         try{
             for(int i=1; i<=Integer.parseInt(spots.get("ammount").asText()); i++){
                 spot.setName(String.valueOf(i));
-                _ParkingSpotRepository.save(spot);
+                _parkingSpotRepository.save(spot);
             }
         }catch(NumberFormatException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"ammount has an invalid value");
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(_ParkingSpotRepository.findByIdParking(idParking));
+        return ResponseEntity.status(HttpStatus.CREATED).body(_parkingSpotRepository.findByIdParking(idParking));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ParkingSpot> update(long id){
-        //TODO: Discutir oque deve ser recebido para atualizacao, status only?
-
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    @PutMapping()
+    public ResponseEntity<ParkingSpot> update(@RequestBody ParkingSpot newParkingSpot){
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(newParkingSpot.getId());
+        if(oSpot.isPresent()) {
+            _parkingSpotRepository.save(newParkingSpot);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping
-    public ResponseEntity<ParkingSpot> delete(){
-        //TODO: 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ParkingSpot> delete(long id){
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(id);
+        if(oSpot.isPresent()){
+            _parkingSpotRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
