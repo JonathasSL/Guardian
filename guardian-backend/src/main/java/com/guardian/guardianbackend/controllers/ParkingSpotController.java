@@ -1,7 +1,11 @@
 package com.guardian.guardianbackend.controllers;
 
+import java.security.cert.PKIXRevocationChecker.Option;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.guardian.guardianbackend.models.ParkingSpot;
 import com.guardian.guardianbackend.repository.ParkingSpotRepository;
 
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @CrossOrigin
 @RestController
@@ -26,39 +31,71 @@ import org.springframework.web.bind.annotation.RestController;
 public class ParkingSpotController {
 
     @Autowired
-    private ParkingSpotRepository _ParkingSpotRepository;
+    private ParkingSpotRepository _parkingSpotRepository;
 
     @GetMapping(produces = "application/json")
     public @ResponseBody Iterable<ParkingSpot> findAll() {
-        Iterable<ParkingSpot> spots = _ParkingSpotRepository.findAll();
+        Iterable<ParkingSpot> spots = _parkingSpotRepository.findAll();
         return spots;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ParkingSpot> findById(@PathVariable long id) {
-        Optional<ParkingSpot> oSpot = _ParkingSpotRepository.findById(id);
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(id);
         if (!oSpot.isPresent())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(oSpot.get());
     }
 
-    // @PostMapping()
-    // @ResponseStatus(HttpStatus.CREATED)
-    // public ParkingSpot register(@RequestBody long idParking, long ammount, int idVehicleType){
-    //  // TODO: Discutir sobre como sera a criacao de spots
-    //     return ;
+    
+    // @GetMapping() //TODO: Discutir como diferenciar findById de findByIdParking: @PathVariable?
+    // public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+    //     return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
     // }
+    
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<List<ParkingSpot>> register(@RequestBody ObjectNode spots){ /* Recebe um json com os campos {ammount:, idParking:"", idVehicleType:"", idStatus:""} */
+        //TODO: Discutir sobre quem deve chamar este medoto, front ou register de Parking
+        
+        ParkingSpot spot = new ParkingSpot();
+        int idParking = Integer.parseInt(spots.get("idParking").asText());
+        spot.setIdParking(idParking);
+        spot.setIdVehicleType(Integer.parseInt(spots.get("idVehicleType").asText()));
+        spot.setIdStatus(Integer.parseInt(spots.get("idStatus").asText()/* Status Available*/));
 
-    @PutMapping()
-    public ResponseEntity<ParkingSpot> update(){
-        //TODO: Discutir oque deve ser recebido para atualizacao, status only?
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        try{
+            for(int i=1; i<=Integer.parseInt(spots.get("ammount").asText()); i++){
+                spot.setName(String.valueOf(i));
+                _parkingSpotRepository.save(spot);
+            }
+        }catch(NumberFormatException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"ammount has an invalid value");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(_parkingSpotRepository.findByIdParking(idParking));
     }
 
-    @DeleteMapping
-    public ResponseEntity<ParkingSpot> delete(){
-        //TODO: 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    @PutMapping()
+    public ResponseEntity<ParkingSpot> update(@RequestBody ParkingSpot newParkingSpot){
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(newParkingSpot.getId());
+        if(oSpot.isPresent()) {
+            _parkingSpotRepository.save(newParkingSpot);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ParkingSpot> delete(long id){
+        Optional<ParkingSpot> oSpot = _parkingSpotRepository.findById(id);
+        if(oSpot.isPresent()){
+            _parkingSpotRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

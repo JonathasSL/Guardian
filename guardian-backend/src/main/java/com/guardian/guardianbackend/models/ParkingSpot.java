@@ -16,16 +16,18 @@ public class ParkingSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Parking_Spot")
-    public long id;
+    private long id;
+
+    private String name;
 
     @Column(name = "id_Parking")
-    public long idParking;
+    private long idParking;
 
     @Column(name = "id_Vehicle_Type")
-    public long idVehicleType;
+    private long idVehicleType;
 
     @Column(name = "id_status")
-    public long idStatus;
+    private long idStatus;
 
     public ParkingSpot () {}
 
@@ -35,6 +37,14 @@ public class ParkingSpot {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getIdParking() {
