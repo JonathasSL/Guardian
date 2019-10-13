@@ -1,7 +1,10 @@
 package com.guardian.guardianbackend.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.guardian.guardianbackend.models.ParkingSpot;
 import com.guardian.guardianbackend.repository.ParkingSpotRepository;
 
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @CrossOrigin
 @RestController
@@ -42,16 +46,34 @@ public class ParkingSpotController {
         return ResponseEntity.ok().body(oSpot.get());
     }
 
-    // @PostMapping()
-    // @ResponseStatus(HttpStatus.CREATED)
-    // public ParkingSpot register(@RequestBody long idParking, long ammount, int idVehicleType){
-    //  // TODO: Discutir sobre como sera a criacao de spots
-    //     return ;
-    // }
+    
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<List<ParkingSpot>> register(@RequestBody ObjectNode spots){ /* Recebe um json com os campos {ammount:, idParking:"", idVehicleType:"", idStatus:""} */
+        //TODO: Discutir sobre quem deve chamar este medoto, front ou register de Parking
+        
+        ParkingSpot spot = new ParkingSpot();
+        int idParking = Integer.parseInt(spots.get("idParking").asText());
+        spot.setIdParking(idParking);
+        spot.setIdVehicleType(Integer.parseInt(spots.get("idVehicleType").asText()));
+        spot.setIdStatus(Integer.parseInt(spots.get("idStatus").asText()/* Status Available*/));
 
-    @PutMapping()
-    public ResponseEntity<ParkingSpot> update(){
+        try{
+            for(int i=1; i<=Integer.parseInt(spots.get("ammount").asText()); i++){
+                spot.setName(String.valueOf(i));
+                _ParkingSpotRepository.save(spot);
+            }
+        }catch(NumberFormatException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"ammount has an invalid value");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(_ParkingSpotRepository.findByIdParking(idParking));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ParkingSpot> update(long id){
         //TODO: Discutir oque deve ser recebido para atualizacao, status only?
+        
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
