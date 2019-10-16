@@ -78,7 +78,7 @@ public class ParkingController {
 	@PostMapping("/login")
 	public ResponseEntity<Parking> login(@RequestBody ObjectNode login) {
 		String email = login.get("email").asText();
-		String password = login.get("passowrd").asText();
+		String password = login.get("password").asText();
 		Optional<Parking> oParking = _parkingRepository.findByEmail(email);
 		if (oParking.isPresent()) {
 			if (oParking.get().getPassword().equals(password)) {
