@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.guardian.guardianbackend.models.Driver;
 import com.guardian.guardianbackend.repository.DriverRepository;
 
@@ -76,8 +78,11 @@ public class DriverController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Driver> login(@RequestBody String email, String password) {
+	public ResponseEntity<Driver> login(@RequestBody ObjectNode login) {
+		String email = login.get("email").asText();
+		String password = login.get("password").asText();
 		Optional<Driver> oDriver = _driverRepository.findByEmail(email);
+
 		if (oDriver.isPresent()) {
 			if (oDriver.get().getPassword().equals(password)) {
 				return ResponseEntity.accepted().body(oDriver.get());
