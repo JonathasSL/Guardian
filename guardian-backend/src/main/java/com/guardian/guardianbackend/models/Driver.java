@@ -24,11 +24,11 @@ public class Driver {
 
 	@NotBlank
 	@Email
-	@Column(name = "email_parking")
+	@Column(name = "email_driver")
 	private String email;
 
 	@NotBlank
-	@Column(name = "password_parking")
+	@Column(name = "password_driver")
 	private String password;
 
 	@NotBlank
