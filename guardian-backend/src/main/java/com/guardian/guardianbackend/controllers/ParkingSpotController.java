@@ -48,10 +48,10 @@ public class ParkingSpotController {
     }
 
     
-    // @GetMapping() //TODO: Discutir como diferenciar findById de findByIdParking: @PathVariable?
-    // public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
-    //     return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
-    // }
+    @GetMapping("/parking/{id}")
+    public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+        return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
+    }
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
