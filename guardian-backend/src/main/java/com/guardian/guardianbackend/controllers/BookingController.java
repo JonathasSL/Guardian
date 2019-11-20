@@ -64,6 +64,7 @@ public class BookingController{
     	return ResponseEntity.accepted().body(register(booking));
     }
 
+    //TODO : Delete mapping
     // @DeleteMapping("/{id}")
     // public ResponseEntity<Booking> delete(@PathVariable long id){
     //     Optional<Booking> oBooking = _bookingRepository.findByIdVehicleAndIdParkingSpot(booking.getIdVehicle(), booking.getIdParkingSpot());
