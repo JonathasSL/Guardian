@@ -1,5 +1,6 @@
 package com.guardian.guardianbackend.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -45,20 +46,19 @@ public class PriceController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @GetMapping(value = "/{idParking}", produces = "application/json")
-    public @ResponseBody Iterable<Price> findAllbyParking(@PathVariable long idParking){
-        Iterable<Price> prices = _priceRepository.findAllByIdParking(idParking);
-        return prices;
+    public @ResponseBody List<Price> findAllbyParking(@PathVariable long idParking){
+        return _priceRepository.findAllByIdParking(idParking);
     }
 
     @PostMapping()
     public ResponseEntity<Price> register(@RequestBody @Valid Price price) {
         Optional<Price> oPrice = _priceRepository.findByIdParkingAndIdVehicleType(price.getIdParking(), price.getIdVehicleType());
         if(!oPrice.isPresent())
-            if (oPrice.get().getTimeInterval().equals(_priceRepository.findByIdParkingAndTimeInterval(price.getIdParking(), price.getTimeInterval()).get().getTimeInterval())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT,"A price with this time interval already exists");
-            } else
+            // if (oPrice.get().getTimeInterval().equals(_priceRepository.findByIdParkingAndTimeInterval(price.getIdParking(), price.getTimeInterval()).get().getTimeInterval())) {
+            //     throw new ResponseStatusException(HttpStatus.CONFLICT,"A price with this time interval already exists");
+            // } else
                 _priceRepository.save(price);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(price);
+        return ResponseEntity.status(HttpStatus.CREATED).body(price);
     }
 
     @PutMapping()
