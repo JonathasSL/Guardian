@@ -45,9 +45,13 @@ public class ParkingController {
 	@Autowired
 	private ParkingRepository _parkingRepository;
 
+	@Autowired
 	private ParkingSpotRepository _parkingSpotRepository;
+	@Autowired
 	private BookingRepository _bookingRepository;
+	@Autowired
 	private VehicleRepository _vehicleRepository;
+	@Autowired
 	private VehicleTypeRepository _vehicleTypeRepository;
 
 	@GetMapping(produces = "application/json")
@@ -115,6 +119,7 @@ public class ParkingController {
 		if (!oParking.isPresent())
 			return ResponseEntity.notFound().build();
 
+		
 		// Lista de vagas por estacionamento
 		List<ParkingSpot> parkingSpots = _parkingSpotRepository.findByIdParking(oParking.get().getID());
 
@@ -151,31 +156,57 @@ public class ParkingController {
 
 		List<BuscaVehicleViewModel> vehiclesViewModel = new ArrayList<BuscaVehicleViewModel>();
 
-		for (Vehicle vh : vehiclesFiltrados) {
-			Optional<VehicleType> status = _vehicleTypeRepository.findById(vh.getIdVehicleType());
+		// for (Vehicle vh : vehiclesFiltrados) {
+		// 	BuscaVehicleViewModel retornoViewModel = new BuscaVehicleViewModel();
 
+
+		// 	VehicleViewModel vvw = new VehicleViewModel();
+		// 	vvw.setIdVehicle(vh.getId());
+		// 	vvw.setPlate(vh.getPlate());
+
+		// 	BookingViewModel bkvw = new BookingViewModel();
+		// 	for (Booking bk : bookingsFiltrados) {
+		// 		if (bk.getIdVehicle() == vh.getId()) {
+		// 			bkvw.setIdBooking(bk.getID());
+		// 			bkvw.setCheckIn(bk.getCheckIn().toString());
+		// 			bkvw.setCheckOut(bk.getCheckOut().toString());
+		// 			bkvw.setVehicle(vvw);
+		// 		}
+
+		// 	}
+
+		// 	retornoViewModel.setBooking(bkvw);
+		// }
+
+		for(ParkingSpot pk : parkingSpots){
 			BuscaVehicleViewModel retornoViewModel = new BuscaVehicleViewModel();
-			retornoViewModel.setIdParking(oParking.get().getID());
-			retornoViewModel.setNome((oParking.get().getName()));
-			retornoViewModel.setStatus(status.get().getID());
 
-			VehicleViewModel vvw = new VehicleViewModel();
-			vvw.setIdVehicle(vh.getId());
-			vvw.setPlate(vh.getPlate());
+			retornoViewModel.setIdParkingSpot(pk.getId());
+			retornoViewModel.setNome(pk.getName());
+			retornoViewModel.setStatus(pk.getIdStatus());
 
 			BookingViewModel bkvw = new BookingViewModel();
 			for (Booking bk : bookingsFiltrados) {
-				if (bk.getIdVehicle() == vh.getId()) {
-					bkvw.setIdBooking(bk.getID());
-					bkvw.setCheckIn(bk.getCheckIn().toString());
-					bkvw.setCheckOut(bk.getCheckOut().toString());
-					bkvw.setVehicle(vvw);
+				if(bk.getIdParkingSpot() == pk.getId()){
+					for (Vehicle vh : vehiclesFiltrados) {
+						VehicleViewModel vvw = new VehicleViewModel();
+						vvw.setIdVehicle(vh.getId());
+						vvw.setPlate(vh.getPlate());
+						if (bk.getIdVehicle() == vh.getId()) {
+							bkvw.setIdBooking(bk.getID());
+							bkvw.setCheckIn(bk.getCheckIn().toString());
+							bkvw.setCheckOut(bk.getCheckOut().toString());
+							bkvw.setVehicle(vvw);
+						}
+					}
+					retornoViewModel.setBooking(bkvw);
 				}
-
 			}
 
-			retornoViewModel.setBooking(bkvw);
+			vehiclesViewModel.add(retornoViewModel);
 		}
+
+
 
 		return ResponseEntity.ok(vehiclesViewModel);
 	}
