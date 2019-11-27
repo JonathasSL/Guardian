@@ -1,7 +1,5 @@
 package com.guardian.guardianbackend.controllers;
 
-import java.security.cert.PKIXRevocationChecker.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,24 +46,25 @@ public class ParkingSpotController {
     }
 
     
-    // @GetMapping() //TODO: Discutir como diferenciar findById de findByIdParking: @PathVariable?
-    // public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
-    //     return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
-    // }
+    @GetMapping("/parking/{id}")
+    public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+        return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
+    }
     
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<List<ParkingSpot>> register(@RequestBody ObjectNode spots){ /* Recebe um json com os campos {ammount:, idParking:"", idVehicleType:"", idStatus:""} */
         //TODO: Discutir sobre quem deve chamar este medoto, front ou register de Parking
         
-        ParkingSpot spot = new ParkingSpot();
         int idParking = Integer.parseInt(spots.get("idParking").asText());
-        spot.setIdParking(idParking);
-        spot.setIdVehicleType(Integer.parseInt(spots.get("idVehicleType").asText()));
-        spot.setIdStatus(Integer.parseInt(spots.get("idStatus").asText()/* Status Available*/));
+        ParkingSpot spot;
 
         try{
             for(int i=1; i<=Integer.parseInt(spots.get("ammount").asText()); i++){
+                spot = new ParkingSpot();
+                spot.setIdParking(idParking);
+                spot.setIdVehicleType(Integer.parseInt(spots.get("idVehicleType").asText()));
+                spot.setIdStatus(Integer.parseInt(spots.get("idStatus").asText()/* Status Available*/));
                 spot.setName(String.valueOf(i));
                 _parkingSpotRepository.save(spot);
             }
