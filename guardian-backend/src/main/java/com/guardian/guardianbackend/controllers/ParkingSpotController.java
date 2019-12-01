@@ -46,8 +46,8 @@ public class ParkingSpotController {
     }
 
     
-    @GetMapping("/parking/{id}")
-    public ResponseEntity<List<ParkingSpot>> findByIdParking(long idParking) {
+    @GetMapping("/parking/{idParking}")
+    public ResponseEntity<List<ParkingSpot>> findByIdParking(@PathVariable Long idParking) {
         return ResponseEntity.status(200).body(_parkingSpotRepository.findByIdParking(idParking));
     }
     

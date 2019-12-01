@@ -54,9 +54,9 @@ public class PriceController {
     public ResponseEntity<Price> register(@RequestBody @Valid Price price) {
         Optional<Price> oPrice = _priceRepository.findByIdParkingAndIdVehicleType(price.getIdParking(), price.getIdVehicleType());
         if(!oPrice.isPresent())
-            if (oPrice.get().getTimeInterval().equals(_priceRepository.findByIdParkingAndTimeInterval(price.getIdParking(), price.getTimeInterval()).get().getTimeInterval())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT,"A price with this time interval already exists");
-            } else
+            // if (oPrice.get().getTimeInterval().equals(_priceRepository.findByIdParkingAndTimeInterval(price.getIdParking(), price.getTimeInterval()).get().getTimeInterval())) {
+            //     throw new ResponseStatusException(HttpStatus.CONFLICT,"A price with this time interval already exists");
+            // } else
                 _priceRepository.save(price);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(price);
     }

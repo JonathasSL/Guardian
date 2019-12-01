@@ -3,7 +3,7 @@ package com.guardian.guardianbackend.models.ViewModels;
 
 public class BuscaVehicleViewModel {
 	
-	private long idParking;
+	private long idParkingSpot;
 	private String nome;
 	private long status;
 	private BookingViewModel booking;
@@ -14,13 +14,13 @@ public class BuscaVehicleViewModel {
 	}
 
 
-	public long getIdParking() {
-		return idParking;
+	public long getIdParkingSpot() {
+		return idParkingSpot;
 	}
 
 
-	public void setIdParking(long idParking) {
-		this.idParking = idParking;
+	public void setIdParkingSpot(long idParkingSpot) {
+		this.idParkingSpot = idParkingSpot;
 	}
 
 
